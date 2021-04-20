@@ -1,5 +1,5 @@
 {
-  "name": "blinkcard-cordova",
+  "name": "@microblink/blinkcard-cordova",
   "version": "2.2.0",
   "description": "A small and powerful credit card card scanning library",
   "cordova": {

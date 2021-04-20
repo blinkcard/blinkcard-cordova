@@ -120,9 +120,9 @@ var app = {
                             documentFirstImage.src = "data:image/jpg;base64, " + resultDocumentFirstImage;
                             documentFirstImageDiv.style.visibility = "visible";
                         }
-                        var resultDocumentSecongImage = blinkCardRecognizer.result.secondSideFullDocumentImage;
-                        if (resultDocumentSecongImage) {
-                            documentSecondImage.src = "data:image/jpg;base64, " + resultDocumentSecongImage;
+                        var resultDocumentSecondImage = blinkCardRecognizer.result.secondSideFullDocumentImage;
+                        if (resultDocumentSecondImage) {
+                            documentSecondImage.src = "data:image/jpg;base64, " + resultDocumentSecondImage;
                             documentSecondImageDiv.style.visibility = "visible";
                         }
                     } else {
