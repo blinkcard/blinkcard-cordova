@@ -1,5 +1,6 @@
 #import "MBLegacyBlinkCardEliteRecognizerWrapper.h"
 #import "MBSerializationUtils.h"
+#import "MBBlinkCardSerializationUtils.h"
 #import "MBCommonSerializationUtils.h"
 
 @implementation MBCLegacyBlinkCardEliteRecognizerCreator

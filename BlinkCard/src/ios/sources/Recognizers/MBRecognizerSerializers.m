@@ -2,9 +2,9 @@
 
 #import "MBRecognizerWrapper.h"
 #import "MBSuccessFrameGrabberRecognizerWrapper.h"
+#import "MBBlinkCardRecognizerWrapper.h"
 #import "MBLegacyBlinkCardEliteRecognizerWrapper.h"
 #import "MBLegacyBlinkCardRecognizerWrapper.h"
-#import "MBBlinkCardRecognizerWrapper.h"
 
 @interface MBCRecognizerSerializers ()
 
@@ -23,10 +23,9 @@
     if (self) {
         _recognizerSerializers = [[NSMutableDictionary alloc] init];
         [self registerCreator:[[MBCSuccessFrameGrabberRecognizerCreator alloc] init]];
+        [self registerCreator:[[MBCBlinkCardRecognizerCreator alloc] init]];
         [self registerCreator:[[MBCLegacyBlinkCardEliteRecognizerCreator alloc] init]];
         [self registerCreator:[[MBCLegacyBlinkCardRecognizerCreator alloc] init]];
-        [self registerCreator:[[MBCBlinkCardRecognizerCreator alloc] init]];
-        
     }
     return self;
 }
