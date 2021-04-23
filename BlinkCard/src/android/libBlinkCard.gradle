@@ -1,0 +1,19 @@
+repositories {
+    jcenter()
+    mavenCentral()
+    //mavenLocal()
+    maven { url 'http://maven.microblink.com' }
+}
+
+dependencies {
+    implementation('com.microblink:blinkcard:2.2.0@aar') {
+        transitive = true
+    }
+}
+
+android {
+  packagingOptions {
+    exclude 'META-INF/NOTICE'
+    exclude 'META-INF/LICENSE'
+  }
+}

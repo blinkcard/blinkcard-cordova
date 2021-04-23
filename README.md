@@ -48,24 +48,6 @@ To run Android sample application type
 cordova run android
 ```
 
-### Ionic
-
-Sample Ionic app is generated with a script
-
-```shell
-./initIonicSampleApp.sh
-```
-
-When Ionic asks the following question **Would you like to integrate your new app with Cordova to target native iOS and Android?** answer with **y**.
-
-To run iOS sample application open Xcode project found in `sample/platforms/ios/sample.xcodeproj` and set your signing team.
-
-To run Android sample application type
-
-```shell
-ionic run android
-```
-
 ### Licensing
 
 - [Generate](https://microblink.com/login?url=/customer/generatedemolicence) a **free trial license key** to start using the SDK in your app (registration required)
@@ -100,13 +82,6 @@ Add the **BlinkCard** plugin to your project:
 ```shell
 cd <path_to_your_project>
 cordova plugin add <blinkcard_plugin_path> # or blinkcard-cordova if you don't have blinkcard-cordova locally
-```
-
-**Ionic specific:**
-
-Copy the BlinkCard plugin's JavaScript files to your project:
-```shell
-cp  -f -r <blinkcard_plugin_path>/www/js ./www/
 ```
 
 ### Android

@@ -19,7 +19,7 @@ cd $APP_NAME
 cordova plugin add ../BlinkCard --variable CAMERA_USAGE_DESCRIPTION="Camera permission is required for automated scanning"
 
 # add ios and android support to the project
-# cordova platform add android@8
+cordova platform add android@8
 cordova platform add ios
 
 # copy content of the www folder
