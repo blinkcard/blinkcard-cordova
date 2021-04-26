@@ -1,7 +1,7 @@
 {
   "name": "@microblink/blinkcard-cordova",
   "version": "2.2.0",
-  "description": "A small and powerful credit card card scanning library",
+  "description": "AI-driven credit card scanning for cross-platform apps built with Cordova.",
   "cordova": {
     "id": "blinkcard-cordova",
     "platforms": [
@@ -14,29 +14,19 @@
     "url": "git+https://github.com/BlinkCard/blinkcard-cordova.git"
   },
   "keywords": [
-    "scan",
-    "id",
-    "scanner",
-    "identity",
-    "ID",
-    "passport",
-    "sdk",
-    "ocr",
-    "USDL",
-    "PDF417",
-    "MRZ",
-    "MRTD",
-    "barcode",
-    "DL",
+    "credit-card",
+    "scanning",
     "card",
-    "document",
-    "microblink",
-    "blinkcard",
-    "ionic",
+    "scanner",
+    "sdk",
+    "cordova",
     "phonegap",
-    "ecosystem:cordova",
-    "cordova-android",
-    "cordova-ios"
+    "machine-learning",
+    "cross-platform",
+    "android",
+    "ios",
+    "add-card",
+    "new-payment-method"
   ],
   "engines": [
     {
