@@ -1,6 +1,6 @@
 {
   "name": "@microblink/blinkcard-cordova",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "AI-driven credit card scanning for cross-platform apps built with Cordova.",
   "cordova": {
     "id": "blinkcard-cordova",

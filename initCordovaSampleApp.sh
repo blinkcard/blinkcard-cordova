@@ -15,7 +15,7 @@ cordova create $APP_NAME com.microblink.sample $APP_NAME
 # enter into demo project folder
 cd $APP_NAME
 
-# add the BlinkID plugin
+# add the BlinkCard plugin
 cordova plugin add ../BlinkCard --variable CAMERA_USAGE_DESCRIPTION="Camera permission is required for automated scanning"
 
 # add ios and android support to the project
