@@ -520,22 +520,22 @@ function BlinkCardRecognizerResult(nativeResult) {
     this.cardNumberPrefix = nativeResult.cardNumberPrefix;
     
     /**
-     * Flag which indicatew whether the payment card number is valid or not.
+     * The payment card number is valid
      */
     this.cardNumberValid = nativeResult.cardNumberValid;
     
     /**
-     * Payment card's security code/value.
+     *  Payment card's security code/value.
      */
     this.cvv = nativeResult.cvv;
     
     /**
-     * Defines digital signature of recognition results.
+     * Digital signature of the recognition result. Available only if enabled with signResult property.
      */
     this.digitalSignature = nativeResult.digitalSignature;
     
     /**
-     * Defines digital signature version.
+     * Version of the digital signature. Available only if enabled with signResult property.
      */
     this.digitalSignatureVersion = nativeResult.digitalSignatureVersion;
     
@@ -545,7 +545,7 @@ function BlinkCardRecognizerResult(nativeResult) {
     this.expiryDate = nativeResult.expiryDate != null ? new Date(nativeResult.expiryDate) : null;
     
     /**
-     * Whether the first scanned side is blurred.
+     * Wheater the first scanned side is blurred.
      */
     this.firstSideBlurred = nativeResult.firstSideBlurred;
     
@@ -565,7 +565,7 @@ function BlinkCardRecognizerResult(nativeResult) {
     this.issuer = nativeResult.issuer;
     
     /**
-     * Information about the payment card owner.
+     * Information about the payment card owner (name, company, etc.).
      */
     this.owner = nativeResult.owner;
     
@@ -575,12 +575,13 @@ function BlinkCardRecognizerResult(nativeResult) {
     this.processingStatus = nativeResult.processingStatus;
     
     /**
-     * {true} if recognizer has finished scanning first side and is now scanning back side,
+     * Returns true if recognizer has finished scanning first side and is now scanning back side,
+     * false if it's still scanning first side.
      */
     this.scanningFirstSideDone = nativeResult.scanningFirstSideDone;
     
     /**
-     * Whether the second scanned side is blurred.
+     * Wheater the second scanned side is blurred.
      */
     this.secondSideBlurred = nativeResult.secondSideBlurred;
     
@@ -596,63 +597,89 @@ BlinkCardRecognizerResult.prototype = new RecognizerResult(RecognizerResultState
 BlinkCard.prototype.BlinkCardRecognizerResult = BlinkCardRecognizerResult;
 
 /**
- * Recognizer used for scanning both sides of payment cards.
+ * Recognizer used for scanning credit/debit cards.
  */
 function BlinkCardRecognizer() {
     Recognizer.call(this, 'BlinkCardRecognizer');
     
     /**
-     * Whether blured frames filtering is allowed.
+     * Defines whether blured frames filtering is allowed
+     * 
+     * 
      */
     this.allowBlurFilter = true;
     
     /**
-     * The settings which control the anonymization of returned data.
+     * Defines whether sensitive data should be redacted from the result.
+     * 
+     * 
      */
     this.anonymizationSettings = new BlinkCardAnonymizationSettings();
     
     /**
-     * Should extract the card CVV
+     * Should extract CVV
+     * 
+     * 
      */
     this.extractCvv = true;
     
     /**
-     * Should extract the payment card's expiry date.
+     * Should extract the payment card's month of expiry
+     * 
+     * 
      */
     this.extractExpiryDate = true;
     
     /**
-     * Should extract the card IBAN
+     * Should extract the payment card's IBAN
+     * 
+     * 
      */
     this.extractIban = true;
     
     /**
      * Should extract the card owner information
+     * 
+     * 
      */
     this.extractOwner = true;
     
     /**
-     * The DPI (Dots Per Inch) for full document image that should be returned.
+     * Property for setting DPI for full document images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     * 
      */
     this.fullDocumentImageDpi = 250;
     
     /**
-     * The extension factors for full document image.
+     * Image extension factors for full document image.
+     * 
+     * @see CImageExtensionFactors
+     * 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /**
-     * Padding is a minimum distance from the edge of the frame and it is defined as a percentage
+     * Pading is a minimum distance from the edge of the frame and is defined as a percentage of the frame width. Default value is 0.0f and in that case
+     * padding edge and image edge are the same.
+     * Recommended value is 0.02f.
+     * 
+     * 
      */
     this.paddingEdge = 0.0;
     
     /**
-     * Defines whether full document image will be available in
+     * Sets whether full document image of ID card should be extracted.
+     * 
+     * 
      */
     this.returnFullDocumentImage = false;
     
     /**
-     * Defines whether or not recognition result should be signed.
+     * Whether or not recognition result should be signed.
+     * 
+     * 
      */
     this.signResult = false;
     
@@ -676,32 +703,35 @@ function LegacyBlinkCardEliteRecognizerResult(nativeResult) {
     this.cardNumber = nativeResult.cardNumber;
     
     /**
-     * Payment card's security code/value.
+     *  Payment card's security code/value
      */
     this.cvv = nativeResult.cvv;
     
     /**
-     * Defines digital signature of recognition results.
+     * Digital signature of the recognition result. Available only if enabled with signResult property.
      */
     this.digitalSignature = nativeResult.digitalSignature;
     
     /**
-     * Defines digital signature version.
+     * Version of the digital signature. Available only if enabled with signResult property.
      */
     this.digitalSignatureVersion = nativeResult.digitalSignatureVersion;
     
     /**
-     * Defines result of the data matching algorithm for scanned parts/sides of the document.
+     * Returns CDataMatchResultSuccess if data from scanned parts/sides of the document match,
+     * CDataMatchResultFailed otherwise. For example if date of expiry is scanned from the front and back side
+     * of the document and values do not match, this method will return CDataMatchResultFailed. Result will
+     * be CDataMatchResultSuccess only if scanned values for all fields that are compared are the same.
      */
     this.documentDataMatch = nativeResult.documentDataMatch;
     
     /**
-     * Back side image of the document
+     * back side image of the document if enabled with returnFullDocumentImage property.
      */
     this.fullDocumentBackImage = nativeResult.fullDocumentBackImage;
     
     /**
-     * Front side image of the document
+     * front side image of the document if enabled with returnFullDocumentImage property.
      */
     this.fullDocumentFrontImage = nativeResult.fullDocumentFrontImage;
     
@@ -711,12 +741,13 @@ function LegacyBlinkCardEliteRecognizerResult(nativeResult) {
     this.inventoryNumber = nativeResult.inventoryNumber;
     
     /**
-     * Information about the payment card owner (name, company, etc.)
+     * Information about the payment card owner (name, company, etc.).
      */
     this.owner = nativeResult.owner;
     
     /**
-     * {true} if recognizer has finished scanning first side and is now scanning back side,
+     * Returns true if recognizer has finished scanning first side and is now scanning back side,
+     * false if it's still scanning first side.
      */
     this.scanningFirstSideDone = nativeResult.scanningFirstSideDone;
     
@@ -732,63 +763,87 @@ LegacyBlinkCardEliteRecognizerResult.prototype = new RecognizerResult(Recognizer
 BlinkCard.prototype.LegacyBlinkCardEliteRecognizerResult = LegacyBlinkCardEliteRecognizerResult;
 
 /**
- * Recognizer used for scanning both sides of elite payment cards.
+ * Recognizer used for scanning the front side of elite credit/debit cards.
  */
 function LegacyBlinkCardEliteRecognizer() {
     Recognizer.call(this, 'LegacyBlinkCardEliteRecognizer');
     
     /**
      * Should anonymize the card number area (redact image pixels) on the document image result
+     * 
+     * 
      */
     this.anonymizeCardNumber = false;
     
     /**
-     * Should anonymize the CVV area (redact image pixels) on the document image result
+     * Should anonymize the CVV on the document image result
+     * 
+     * 
      */
     this.anonymizeCvv = false;
     
     /**
      * Should anonymize the owner area (redact image pixels) on the document image result
+     * 
+     * 
      */
     this.anonymizeOwner = false;
     
     /**
-     * Defines whether glare detector is enabled.
+     * Defines if glare detection should be turned on/off.
+     * 
+     * 
      */
     this.detectGlare = true;
     
     /**
      * Should extract the card's inventory number
+     * 
+     * 
      */
     this.extractInventoryNumber = true;
     
     /**
      * Should extract the card owner information
+     * 
+     * 
      */
     this.extractOwner = true;
     
     /**
      * Should extract the payment card's month of expiry
+     * 
+     * 
      */
     this.extractValidThru = true;
     
     /**
-     * The DPI (Dots Per Inch) for full document image that should be returned.
+     * Property for setting DPI for full document images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     * 
      */
     this.fullDocumentImageDpi = 250;
     
     /**
-     * The extension factors for full document image.
+     * Image extension factors for full document image.
+     * 
+     * @see CImageExtensionFactors
+     * 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /**
-     * Defines whether full document image will be available in
+     * Sets whether full document image of ID card should be extracted.
+     * 
+     * 
      */
     this.returnFullDocumentImage = false;
     
     /**
-     * Defines whether or not recognition result should be signed.
+     * Whether or not recognition result should be signed.
+     * 
+     * 
      */
     this.signResult = false;
     
@@ -812,37 +867,40 @@ function LegacyBlinkCardRecognizerResult(nativeResult) {
     this.cardNumber = nativeResult.cardNumber;
     
     /**
-     * Payment card's security code/value.
+     *  Payment card's security code/value
      */
     this.cvv = nativeResult.cvv;
     
     /**
-     * Defines digital signature of recognition results.
+     * Digital signature of the recognition result. Available only if enabled with signResult property.
      */
     this.digitalSignature = nativeResult.digitalSignature;
     
     /**
-     * Defines digital signature version.
+     * Version of the digital signature. Available only if enabled with signResult property.
      */
     this.digitalSignatureVersion = nativeResult.digitalSignatureVersion;
     
     /**
-     * Defines result of the data matching algorithm for scanned parts/sides of the document.
+     * Returns CDataMatchResultSuccess if data from scanned parts/sides of the document match,
+     * CDataMatchResultFailed otherwise. For example if date of expiry is scanned from the front and back side
+     * of the document and values do not match, this method will return CDataMatchResultFailed. Result will
+     * be CDataMatchResultSuccess only if scanned values for all fields that are compared are the same.
      */
     this.documentDataMatch = nativeResult.documentDataMatch;
     
     /**
-     * Back side image of the document
+     * back side image of the document if enabled with returnFullDocumentImage property.
      */
     this.fullDocumentBackImage = nativeResult.fullDocumentBackImage;
     
     /**
-     * Front side image of the document
+     * front side image of the document if enabled with returnFullDocumentImage property.
      */
     this.fullDocumentFrontImage = nativeResult.fullDocumentFrontImage;
     
     /**
-     * Payment card's IBAN.
+     * Payment card's IBAN
      */
     this.iban = nativeResult.iban;
     
@@ -852,17 +910,18 @@ function LegacyBlinkCardRecognizerResult(nativeResult) {
     this.inventoryNumber = nativeResult.inventoryNumber;
     
     /**
-     * The payment card's issuing network.
+     * Payment card's issuing network
      */
     this.issuer = nativeResult.issuer;
     
     /**
-     * Information about the payment card owner (name, company, etc.)
+     * Information about the payment card owner (name, company, etc.).
      */
     this.owner = nativeResult.owner;
     
     /**
-     * {true} if recognizer has finished scanning first side and is now scanning back side,
+     * Returns true if recognizer has finished scanning first side and is now scanning back side,
+     * false if it's still scanning first side.
      */
     this.scanningFirstSideDone = nativeResult.scanningFirstSideDone;
     
@@ -878,78 +937,108 @@ LegacyBlinkCardRecognizerResult.prototype = new RecognizerResult(RecognizerResul
 BlinkCard.prototype.LegacyBlinkCardRecognizerResult = LegacyBlinkCardRecognizerResult;
 
 /**
- * Recognizer used for scanning both sides of payment cards.
+ * Recognizer used for scanning the front side of credit/debit cards.
  */
 function LegacyBlinkCardRecognizer() {
     Recognizer.call(this, 'LegacyBlinkCardRecognizer');
     
     /**
      * Should anonymize the card number area (redact image pixels) on the document image result
+     * 
+     * 
      */
     this.anonymizeCardNumber = false;
     
     /**
-     * Should anonymize the CVV area (redact image pixels) on the document image result
+     * Should anonymize the CVV on the document image result
+     * 
+     * 
      */
     this.anonymizeCvv = false;
     
     /**
      * Should anonymize the IBAN area (redact image pixels) on the document image result
+     * 
+     * 
      */
     this.anonymizeIban = false;
     
     /**
      * Should anonymize the owner area (redact image pixels) on the document image result
+     * 
+     * 
      */
     this.anonymizeOwner = false;
     
     /**
-     * Defines whether glare detector is enabled.
+     * Defines if glare detection should be turned on/off.
+     * 
+     * 
      */
     this.detectGlare = true;
     
     /**
-     * Should extract the card CVV
+     * Should extract CVV
+     * 
+     * 
      */
     this.extractCvv = true;
     
     /**
-     * Should extract the card IBAN
+     * Should extract the payment card's IBAN
+     * 
+     * 
      */
     this.extractIban = false;
     
     /**
      * Should extract the card's inventory number
+     * 
+     * 
      */
     this.extractInventoryNumber = true;
     
     /**
      * Should extract the card owner information
+     * 
+     * 
      */
     this.extractOwner = false;
     
     /**
      * Should extract the payment card's month of expiry
+     * 
+     * 
      */
     this.extractValidThru = true;
     
     /**
-     * The DPI (Dots Per Inch) for full document image that should be returned.
+     * Property for setting DPI for full document images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     * 
      */
     this.fullDocumentImageDpi = 250;
     
     /**
-     * The extension factors for full document image.
+     * Image extension factors for full document image.
+     * 
+     * @see CImageExtensionFactors
+     * 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /**
-     * Defines whether full document image will be available in
+     * Sets whether full document image of ID card should be extracted.
+     * 
+     * 
      */
     this.returnFullDocumentImage = false;
     
     /**
-     * Defines whether or not recognition result should be signed.
+     * Whether or not recognition result should be signed.
+     * 
+     * 
      */
     this.signResult = false;
     
