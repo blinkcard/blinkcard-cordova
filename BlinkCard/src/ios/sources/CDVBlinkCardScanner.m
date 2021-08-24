@@ -151,7 +151,7 @@
     return @"resultList";
 }
 
-- (NSString *)CANCELLED {
++ (NSString *)CANCELLED {
     return @"cancelled";
 }
 
