@@ -45,6 +45,7 @@
         </config-file>
 
         <config-file target="app/src/main/AndroidManifest.xml" parent="/manifest/application">
+            <activity android:name="com.microblink.blinkcard.activity.BlinkCardActivity" android:noHistory="true" />
         </config-file>
 
 
