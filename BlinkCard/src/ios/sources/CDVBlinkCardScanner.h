@@ -12,10 +12,10 @@
 #import <Cordova/CDV.h>
 
 /**
- * pdf417 plugin class.
+ * BlinkCard plugin class.
  * Responds to JS calls
  */
-@interface CDVMicroblinkScanner : CDVPlugin
+@interface CDVBlinkCardScanner : CDVPlugin
 
 /**
  * Starts the scanning process
