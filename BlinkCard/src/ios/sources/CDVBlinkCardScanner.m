@@ -19,11 +19,11 @@
 
 #import "CDVBlinkCardScanner.h"
 
-#import "MBOverlayViewControllerDelegate.h"
-#import "MBRecognizerSerializers.h"
-#import "MBOverlaySettingsSerializers.h"
-#import "MBRecognizerWrapper.h"
-#import "MBSerializationUtils.h"
+#import "MBCOverlayViewControllerDelegate.h"
+#import "MBCRecognizerSerializers.h"
+#import "MBCOverlaySettingsSerializers.h"
+#import "MBCRecognizerWrapper.h"
+#import "MBCSerializationUtils.h"
 
 #import <BlinkCard/BlinkCard.h>
 

@@ -1,7 +1,7 @@
 #import "MBBlinkCardRecognizerWrapper.h"
-#import "MBSerializationUtils.h"
-#import "MBBlinkCardSerializationUtils.h"
-#import "MBCommonSerializationUtils.h"
+#import "MBCSerializationUtils.h"
+#import "MBCBlinkCardSerializationUtils.h"
+#import "MBCCommonSerializationUtils.h"
 
 @implementation MBCBlinkCardRecognizerCreator
 
@@ -77,12 +77,6 @@
             recognizer.returnFullDocumentImage = [(NSNumber *)returnFullDocumentImage boolValue];
         }
     }
-    {
-        id signResult = [jsonRecognizer valueForKey:@"signResult"];
-        if (signResult != nil) {
-            recognizer.signResult = [(NSNumber *)signResult boolValue];
-        }
-    }
 
     return recognizer;
 }
@@ -100,8 +94,6 @@
     [jsonResult setValue:self.result.cardNumberPrefix forKey:@"cardNumberPrefix"];
     [jsonResult setValue:[NSNumber numberWithBool:self.result.cardNumberValid] forKey:@"cardNumberValid"];
     [jsonResult setValue:self.result.cvv forKey:@"cvv"];
-    [jsonResult setValue:[self.result.digitalSignature base64EncodedStringWithOptions:0] forKey:@"digitalSignature"];
-    [jsonResult setValue:[NSNumber numberWithInteger:self.result.digitalSignatureVersion] forKey:@"digitalSignatureVersion"];
     [jsonResult setValue:[MBCSerializationUtils serializeMBDateResult:self.result.expiryDate] forKey:@"expiryDate"];
     [jsonResult setValue:[NSNumber numberWithBool:self.result.firstSideBlurred] forKey:@"firstSideBlurred"];
     [jsonResult setValue:[MBCSerializationUtils encodeMBImage:self.result.firstSideFullDocumentImage] forKey:@"firstSideFullDocumentImage"];

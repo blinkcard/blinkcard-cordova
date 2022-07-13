@@ -1,7 +1,7 @@
-#import "MBRecognizerSerializers.h"
+#import "MBCRecognizerSerializers.h"
 
-#import "MBRecognizerWrapper.h"
-#import "MBSuccessFrameGrabberRecognizerWrapper.h"
+#import "MBCRecognizerWrapper.h"
+#import "MBCSuccessFrameGrabberRecognizerWrapper.h"
 #import "MBBlinkCardRecognizerWrapper.h"
 #import "MBLegacyBlinkCardEliteRecognizerWrapper.h"
 #import "MBLegacyBlinkCardRecognizerWrapper.h"
