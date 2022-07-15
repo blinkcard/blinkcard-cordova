@@ -2,9 +2,9 @@
 
 #import "MBCRecognizerWrapper.h"
 #import "MBCSuccessFrameGrabberRecognizerWrapper.h"
-#import "MBBlinkCardRecognizerWrapper.h"
-#import "MBLegacyBlinkCardEliteRecognizerWrapper.h"
-#import "MBLegacyBlinkCardRecognizerWrapper.h"
+#import "MBCBlinkCardRecognizerWrapper.h"
+#import "MBCLegacyBlinkCardEliteRecognizerWrapper.h"
+#import "MBCLegacyBlinkCardRecognizerWrapper.h"
 
 @interface MBCRecognizerSerializers ()
 
