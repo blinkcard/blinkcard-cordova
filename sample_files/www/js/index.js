@@ -61,8 +61,8 @@ var app = {
 
         // package name/bundleID com.microblink.sample
         var licenseKeys = {
-            android: 'sRwAAAAVY29tLm1pY3JvYmxpbmsuc2FtcGxlU9kJdb5ZkGlTu623Pixsw037mGhBUOlKf9FyC46r0aJfr+2FJclONWXQv/Xlj27pDDhp07b66EWvmCZeP9oUM7zUHo17x8A4DC8nIZhxCsRgz5FLeMD7opEa+XVTb3/kxNOc8zNZ2XSG0Pw9VTxYf/74hEC7mVhYMIK+4Nf94HM5hujNJInjb5BRLBqrje6tcOlqgSDdQGBkCIre9FOLJDgVtyq41HIwC4cxSS/ryg==',
-            ios: 'sRwAAAEVY29tLm1pY3JvYmxpbmsuc2FtcGxl1BIcP6dpSuS/37rVPvGgnEXtW6n0WYNXlN/0i1f88yoVpcC6wVI7C9/PwW96iHudfFxZtXdYuU3G3FGWKgCcqkSdZwRtiHrFeYz8beVEwPAGbLMPGidJ8qm5ZtgfLYHJ5NqR0qfIfqKTIDlsGzUY2D2qp3KUfYcscbf9JftuQdMpQ8VfQ8eu0+x1aUckcowsgAfq8/CTF3cpaSF1mBKMCO+idtTRWI8B52aZZDeybQ=='
+            android: 'sRwAAAAVY29tLm1pY3JvYmxpbmsuc2FtcGxlU9kJdb5ZkGlTu623PARDZ2y3bw/2FMh5N8Ns88iVHtrPi9+/nWa1Jfjuaio9sNqvjMT6OtkQ6mJBjE58IcmwG5+mm6WUi+Jy6MYfmGIzIoMFQvkqfYUo2Q/WFqsbYjo57kuic4Q5BWQbqavo1wF7llPipW1ABXqrTLnoewhyHJrJCMyXSOvK6ensoeNbd2iJtgi2L6myHxmekGcmW2ZnKr9otoMUy0YqZ5AjqMxjDw==',
+            ios: 'sRwAAAEVY29tLm1pY3JvYmxpbmsuc2FtcGxl1BIcP6dpSuS/37rVPHmMM66VEthX7q1xT0clq2F8EYBs/9hmcWBppmxn1ZvK6scIzzJwZ+WILGoVKSf3Z0DpZJ0vk6OBQ+5fxEX0BZqp+KHsXGiaJl4lsAQzcsbgoglEOxNyell4YBLPfYZwhc36UfL23Sr6Y4qRcYcz8Y1ReXrZw97YcmXoGwMd8UtP+sg1x7vt7FGn8dfWs4HS3Vj/c+4x6SPjvyNkoH/WbDZD3Q=='
         };
 
         function buildResult(result, key) {

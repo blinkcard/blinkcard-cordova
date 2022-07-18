@@ -530,16 +530,6 @@ function BlinkCardRecognizerResult(nativeResult) {
     this.cvv = nativeResult.cvv;
     
     /**
-     * Digital signature of the recognition result. Available only if enabled with signResult property.
-     */
-    this.digitalSignature = nativeResult.digitalSignature;
-    
-    /**
-     * Version of the digital signature. Available only if enabled with signResult property.
-     */
-    this.digitalSignatureVersion = nativeResult.digitalSignatureVersion;
-    
-    /**
      * The payment card's expiry date.
      */
     this.expiryDate = nativeResult.expiryDate != null ? new Date(nativeResult.expiryDate) : null;
@@ -676,13 +666,6 @@ function BlinkCardRecognizer() {
      */
     this.returnFullDocumentImage = false;
     
-    /**
-     * Whether or not recognition result should be signed.
-     * 
-     * 
-     */
-    this.signResult = false;
-    
     this.createResultFromNative = function (nativeResult) { return new BlinkCardRecognizerResult(nativeResult); }
 
 }
@@ -706,16 +689,6 @@ function LegacyBlinkCardEliteRecognizerResult(nativeResult) {
      *  Payment card's security code/value
      */
     this.cvv = nativeResult.cvv;
-    
-    /**
-     * Digital signature of the recognition result. Available only if enabled with signResult property.
-     */
-    this.digitalSignature = nativeResult.digitalSignature;
-    
-    /**
-     * Version of the digital signature. Available only if enabled with signResult property.
-     */
-    this.digitalSignatureVersion = nativeResult.digitalSignatureVersion;
     
     /**
      * Returns CDataMatchResultSuccess if data from scanned parts/sides of the document match,
@@ -840,13 +813,6 @@ function LegacyBlinkCardEliteRecognizer() {
      */
     this.returnFullDocumentImage = false;
     
-    /**
-     * Whether or not recognition result should be signed.
-     * 
-     * 
-     */
-    this.signResult = false;
-    
     this.createResultFromNative = function (nativeResult) { return new LegacyBlinkCardEliteRecognizerResult(nativeResult); }
 
 }
@@ -870,16 +836,6 @@ function LegacyBlinkCardRecognizerResult(nativeResult) {
      *  Payment card's security code/value
      */
     this.cvv = nativeResult.cvv;
-    
-    /**
-     * Digital signature of the recognition result. Available only if enabled with signResult property.
-     */
-    this.digitalSignature = nativeResult.digitalSignature;
-    
-    /**
-     * Version of the digital signature. Available only if enabled with signResult property.
-     */
-    this.digitalSignatureVersion = nativeResult.digitalSignatureVersion;
     
     /**
      * Returns CDataMatchResultSuccess if data from scanned parts/sides of the document match,
@@ -1034,13 +990,6 @@ function LegacyBlinkCardRecognizer() {
      * 
      */
     this.returnFullDocumentImage = false;
-    
-    /**
-     * Whether or not recognition result should be signed.
-     * 
-     * 
-     */
-    this.signResult = false;
     
     this.createResultFromNative = function (nativeResult) { return new LegacyBlinkCardRecognizerResult(nativeResult); }
 
