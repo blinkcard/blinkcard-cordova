@@ -18,13 +18,14 @@ import com.microblink.blinkcard.intent.IntentDataTransferMode;
 import com.microblink.blinkcard.uisettings.UISettings;
 import com.microblink.blinkcard.plugins.cordova.overlays.OverlaySettingsSerializers;
 import com.microblink.blinkcard.plugins.cordova.recognizers.RecognizerSerializers;
+import com.microblink.blinkcard.locale.LanguageUtils;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MicroblinkScanner extends CordovaPlugin {
+public class BlinkCardScanner extends CordovaPlugin {
 
     private static final int REQUEST_CODE = 1337;
 
@@ -39,7 +40,7 @@ public class MicroblinkScanner extends CordovaPlugin {
     /**
      * Constructor.
      */
-    public MicroblinkScanner() {
+    public BlinkCardScanner() {
     }
 
     /**
@@ -74,6 +75,9 @@ public class MicroblinkScanner extends CordovaPlugin {
                 JSONObject jsonLicenses = args.getJSONObject(2);
 
                 setLicense(jsonLicenses);
+                setLanguage(jsonOverlaySettings.getString("language"),
+                            jsonOverlaySettings.getString("country"));
+
                 mRecognizerBundle = RecognizerSerializers.INSTANCE.deserializeRecognizerCollection(jsonRecognizerCollection);
                 UISettings overlaySettings = OverlaySettingsSerializers.INSTANCE.getOverlaySettings(this.cordova.getContext(), jsonOverlaySettings, mRecognizerBundle);
 
@@ -104,6 +108,10 @@ public class MicroblinkScanner extends CordovaPlugin {
             MicroblinkSDK.setLicenseKey(androidLicense, licensee, context);
         }
         MicroblinkSDK.setIntentDataTransferMode(IntentDataTransferMode.PERSISTED_OPTIMISED);
+    }
+
+    private void setLanguage(String language, String country) {
+        LanguageUtils.setLanguageAndCountry(language, country, this.cordova.getContext());
     }
 
     /**

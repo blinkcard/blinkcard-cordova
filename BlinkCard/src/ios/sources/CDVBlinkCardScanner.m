@@ -74,6 +74,7 @@
     NSDictionary *jsonLicenses = [self sanitizeDictionary:[self.lastCommand argumentAtIndex:2]];
 
     [self setLicense:jsonLicenses];
+    [self setLanguage:(NSString *)jsonOverlaySettings[@"language"] country:(NSString *)jsonOverlaySettings[@"country"]];
 
     self.recognizerCollection = [[MBCRecognizerSerializers sharedInstance] deserializeRecognizerCollection:jsonRecognizerCollection];
 
@@ -89,6 +90,8 @@
 }
 
 - (void)setLicense:(NSDictionary*) jsonLicense {
+    __weak CDVBlinkCardScanner *weakSelf = self;
+    
     if ([jsonLicense objectForKey:@"showTrialLicenseWarning"] != nil) {
         BOOL showTrialLicenseWarning = [[jsonLicense objectForKey:@"showTrialLicenseWarning"] boolValue];
         [MBCMicroblinkSDK sharedInstance].showTrialLicenseWarning = showTrialLicenseWarning;
@@ -97,15 +100,27 @@
     if ([jsonLicense objectForKey:@"licensee"] != nil) {
         NSString *licensee = [jsonLicense objectForKey:@"licensee"];
         [[MBCMicroblinkSDK sharedInstance] setLicenseKey:iosLicense andLicensee:licensee errorCallback:^(MBCLicenseError licenseError) {
-
+            CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[CDVBlinkCardScanner licenseErrorToString:licenseError]];
+            [weakSelf.commandDelegate sendPluginResult:result callbackId:weakSelf.lastCommand.callbackId];
         }];
     }
     else {
         [[MBCMicroblinkSDK sharedInstance] setLicenseKey:iosLicense errorCallback:^(MBCLicenseError licenseError) {
-
+            CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[CDVBlinkCardScanner licenseErrorToString:licenseError]];
+            [weakSelf.commandDelegate sendPluginResult:result callbackId:weakSelf.lastCommand.callbackId];
         }];
     }
 
+}
+
+- (void)setLanguage:(NSString *)language country:(NSString *)country {
+    if (language != nil) {
+        if (country != nil && ![country isEqualToString:@""]) {
+            MBCMicroblinkApp.sharedInstance.language = [[language stringByAppendingString:@"-"] stringByAppendingString:country];
+        } else {
+            MBCMicroblinkApp.sharedInstance.language = language;
+        }
+    }
 }
 
 - (void)overlayViewControllerDidFinishScanning:(MBCOverlayViewController *)overlayViewController state:(MBCRecognizerResultState)state {
@@ -157,6 +172,38 @@
 
 + (int)COMPRESSED_IMAGE_QUALITY {
     return 90;
+}
+
++ (NSString *)licenseErrorToString:(MBCLicenseError)licenseError {
+    switch(licenseError) {
+        case MBCLicenseErrorNetworkRequired:
+            return @"License error network required";
+            break;
+        case MBCLicenseErrorUnableToDoRemoteLicenceCheck:
+            return @"License error unable to do remote licence check";
+            break;
+        case MBCLicenseErrorLicenseIsLocked:
+            return @"License error license is locked";
+            break;
+        case MBCLicenseErrorLicenseCheckFailed:
+            return @"License error license check failed";
+            break;
+        case MBCLicenseErrorInvalidLicense:
+            return @"License error invalid license";
+            break;
+        case MBCLicenseErrorPermissionExpired:
+            return @"License error permission expired";
+            break;
+        case MBCLicenseErrorPayloadCorrupted:
+            return @"License error payload corrupted";
+            break;
+        case MBCLicenseErrorPayloadSignatureVerificationFailed:
+            return @"License error payload signature verification failed";
+            break;
+        case MBCLicenseErrorIncorrectTokenState:
+            return @"License error incorrect token state";
+            break;
+    }
 }
 
 @end
