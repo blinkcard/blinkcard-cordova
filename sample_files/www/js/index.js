@@ -61,8 +61,8 @@ var app = {
 
         // package name/bundleID com.microblink.sample
         var licenseKeys = {
-            android: 'sRwAAAAVY29tLm1pY3JvYmxpbmsuc2FtcGxlU9kJdb5ZkGlTu623PARDZ2y3bw/2FMh5N8Ns88iVHtrPi9+/nWa1Jfjuaio9sNqvjMT6OtkQ6mJBjE58IcmwG5+mm6WUi+Jy6MYfmGIzIoMFQvkqfYUo2Q/WFqsbYjo57kuic4Q5BWQbqavo1wF7llPipW1ABXqrTLnoewhyHJrJCMyXSOvK6ensoeNbd2iJtgi2L6myHxmekGcmW2ZnKr9otoMUy0YqZ5AjqMxjDw==',
-            ios: 'sRwAAAEVY29tLm1pY3JvYmxpbmsuc2FtcGxl1BIcP6dpSuS/37rVPHmMM66VEthX7q1xT0clq2F8EYBs/9hmcWBppmxn1ZvK6scIzzJwZ+WILGoVKSf3Z0DpZJ0vk6OBQ+5fxEX0BZqp+KHsXGiaJl4lsAQzcsbgoglEOxNyell4YBLPfYZwhc36UfL23Sr6Y4qRcYcz8Y1ReXrZw97YcmXoGwMd8UtP+sg1x7vt7FGn8dfWs4HS3Vj/c+4x6SPjvyNkoH/WbDZD3Q=='
+            android: 'sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUAbGV5SkRjbVZoZEdWa1QyNGlPakUzTURnMk9EWTNPRGcwT1Rrc0lrTnlaV0YwWldSR2IzSWlPaUkwT1RabFpEQXpaUzAwT0RBeExUUXpZV1F0WVRrMU5DMDBNemMyWlRObU9UTTVNR1FpZlE9PUwdDoL/tBLmwfbOm3/dmw5DjLaYtTz1AGwI1162GlPEct+8fJxPBysGwVZ/8KX0Ygxi7NeroVHPM6IDNhCkmUMDHqELYqH3nK8xm8FPaTjCcN53o3B40SKVLm1Quw==',
+            ios: 'sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUBbGV5SkRjbVZoZEdWa1QyNGlPakUzTURnMk9EWTNOalE0TURZc0lrTnlaV0YwWldSR2IzSWlPaUkwT1RabFpEQXpaUzAwT0RBeExUUXpZV1F0WVRrMU5DMDBNemMyWlRObU9UTTVNR1FpZlE9Pc2TFqY01wri2M94Fe5sCUOx4F7K3M5TXqNAAJZWrZrJijNfC57WBNQMo7GkQo9Fp6zemUCuWlW0XGzB0RqVzCG1Y8aztpnim/cOYMPi5xoqZm3O3DeSkjmH6qUIyg=='
         };
 
         function buildResult(result, key) {
@@ -79,6 +79,16 @@ var app = {
                     + "<br>";
             }
             return ""
+        }
+
+        function buildLivenessResult(result, key) {
+            if (result && result !== -1) {
+                return key + ": " + "<br>" +
+                    buildResult(result.handPresenceCheck, 'Hand presence check') +
+                    buildResult(result.photocopyCheck, 'Photocopy check') +
+                    buildResult(result.screenCheck, 'Screen check');
+            }
+             return "";
         }
 
         scanButton.addEventListener('click', function() {
@@ -110,7 +120,10 @@ var app = {
                             buildResult(blinkCardResult.cvv, 'CVV') +
                             buildResult(blinkCardResult.owner, 'Owner') +
                             buildResult(blinkCardResult.cardNumberValid.toString(), 'Card Number Valid') +
-                            buildDateResult(blinkCardResult.expiryDate, 'Expiry date');
+                            buildDateResult(blinkCardResult.expiryDate, 'Expiry date') +
+                            buildResult(blinkCardResult.issuer, 'Issuer') +
+                            buildLivenessResult(blinkCardResult.documentLivenessCheck.front, 'Front side liveness checks') +
+                            buildLivenessResult(blinkCardResult.documentLivenessCheck.back, 'Back side liveness checks');
 
                         // there are other fields to extract - check blinkCardScanner.js for full reference
                         resultDiv.innerHTML = resultString;
