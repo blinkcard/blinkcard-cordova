@@ -51,7 +51,7 @@
 
         <!-- ANDROID SOURCE FILES BEGIN -->
         <source-file src="src/android/java/com/microblink/blinkcard/plugins/cordova/SerializationUtils.java" target-dir="src/com/microblink/blinkcard/plugins/cordova" />
-        <source-file src="src/android/java/com/microblink/blinkcard/plugins/cordova/MicroblinkScanner.java" target-dir="src/com/microblink/blinkcard/plugins/cordova" />
+        <source-file src="src/android/java/com/microblink/blinkcard/plugins/cordova/BlinkCardScanner.java" target-dir="src/com/microblink/blinkcard/plugins/cordova" />
         <source-file src="src/android/java/com/microblink/blinkcard/plugins/cordova/FakeR.java" target-dir="src/com/microblink/blinkcard/plugins/cordova" />
         <source-file src="src/android/java/com/microblink/blinkcard/plugins/cordova/overlays/OverlaySettingsSerialization.java" target-dir="src/com/microblink/blinkcard/plugins/cordova/overlays" />
         <source-file src="src/android/java/com/microblink/blinkcard/plugins/cordova/overlays/OverlaySerializationUtils.java" target-dir="src/com/microblink/blinkcard/plugins/cordova/overlays" />
@@ -61,9 +61,7 @@
         <source-file src="src/android/java/com/microblink/blinkcard/plugins/cordova/recognizers/RecognizerSerialization.java" target-dir="src/com/microblink/blinkcard/plugins/cordova/recognizers" />
         <source-file src="src/android/java/com/microblink/blinkcard/plugins/cordova/recognizers/serialization/BlinkCardRecognizerSerialization.java" target-dir="src/com/microblink/blinkcard/plugins/cordova/recognizers/serialization" />
         <source-file src="src/android/java/com/microblink/blinkcard/plugins/cordova/recognizers/serialization/SuccessFrameGrabberRecognizerSerialization.java" target-dir="src/com/microblink/blinkcard/plugins/cordova/recognizers/serialization" />
-        <source-file src="src/android/java/com/microblink/blinkcard/plugins/cordova/recognizers/serialization/LegacyBlinkCardRecognizerSerialization.java" target-dir="src/com/microblink/blinkcard/plugins/cordova/recognizers/serialization" />
         <source-file src="src/android/java/com/microblink/blinkcard/plugins/cordova/recognizers/serialization/BlinkCardSerializationUtils.java" target-dir="src/com/microblink/blinkcard/plugins/cordova/recognizers/serialization" />
-        <source-file src="src/android/java/com/microblink/blinkcard/plugins/cordova/recognizers/serialization/LegacyBlinkCardEliteRecognizerSerialization.java" target-dir="src/com/microblink/blinkcard/plugins/cordova/recognizers/serialization" />
         <!-- ANDROID SOURCE FILES END -->
 
         <!-- resources -->
@@ -97,12 +95,8 @@
         <header-file src="src/ios/sources/Recognizers/MBCRecognizerSerializers.h" />
         <source-file src="src/ios/sources/Recognizers/MBCRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBCBlinkCardRecognizerWrapper.h" />
-        <source-file src="src/ios/sources/Recognizers/Wrappers/MBCLegacyBlinkCardRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBCSuccessFrameGrabberRecognizerWrapper.h" />
-        <header-file src="src/ios/sources/Recognizers/Wrappers/MBCLegacyBlinkCardEliteRecognizerWrapper.h" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBCBlinkCardRecognizerWrapper.m" />
-        <header-file src="src/ios/sources/Recognizers/Wrappers/MBCLegacyBlinkCardRecognizerWrapper.h" />
-        <source-file src="src/ios/sources/Recognizers/Wrappers/MBCLegacyBlinkCardEliteRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBCSuccessFrameGrabberRecognizerWrapper.m" />
         <!-- IOS SOURCE FILES END -->
         
