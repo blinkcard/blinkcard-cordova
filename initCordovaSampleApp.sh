@@ -26,6 +26,9 @@ else
   echo "Using plugin from NPM"
 fi
 
+# cordova-plugin-camera plugin needed only for sample application with DirectAPI to get the card images
+cordova plugin add https://github.com/jalios/cordova-plugin-camera.git
+
 # add ios and android support to the project
 cordova platform add android@10
 cordova platform add ios
@@ -44,5 +47,5 @@ sed -i '' 's#compileSdkVersion cordovaConfig.SDK_VERSION#compileSdkVersion 33#g'
 sed -i '' 's#targetSdkVersion cordovaConfig.SDK_VERSION#targetSdkVersion 33#g' ./platforms/android/app/build.gradle
 
 # how to run
-echo "To run iOS demo application open Xcode project $APP_NAME/platforms/ios/$APP_NAME.xcodeproj and set your development team."
+echo "To run iOS demo application open Xcode project $APP_NAME/platforms/ios/$APP_NAME.xcodeproj, add the NSPhotoLibraryUsageDescription key to Info.plist if the DirectAPI will be used, and set your development team."
 echo "To run Android demo application, position to $APP_NAME folder and type: cordova run android"
