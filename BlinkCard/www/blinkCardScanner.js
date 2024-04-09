@@ -82,6 +82,73 @@ BlinkCard.prototype.scanWithCamera = function (successCallback, errorCallback, o
         errorCallback, 'BlinkCardScanner', 'scanWithCamera', [overlaySettings, recognizerCollection, licenses]);
 };
 
+/**
+ * successCallback: callback that will be invoked on successful scan
+ * errorCallback: callback that will be invoked on error
+ * recognizerCollection: {RecognizerCollection} containing recognizers to use for scanning
+ * frontImage: the front image of the document that will be used for processing with DirectAPI in base64 format
+ * backImage: the back image of the document that will be used for processing with DirectAPI in base64 format. 
+ * This parameter is optional for the BlinkIdSingleSideRecognizer. Pass an empty string for this parameter.
+ * licenses: object containing:
+ *               - base64 license keys for iOS and Android
+ *               - optioanl parameter 'licensee' when license for multiple apps is used
+ *               - optional flag 'showTrialLicenseKeyWarning' which indicates
+ *                  whether warning for trial license key will be shown, in format
+ *  {
+ *      ios: 'base64iOSLicense',
+ *      android: 'base64AndroidLicense',
+ *      licensee: String,
+ *      showTrialLicenseKeyWarning: Boolean
+ *  }
+ */
+
+BlinkCard.prototype.scanWithDirectApi = function (successCallback, errorCallback, recognizerCollection, frontImage, backImage, licenses) {
+    if (errorCallback == null) {
+        errorCallback = function () {
+        };
+    }
+
+    if (typeof errorCallback != "function") {
+        console.log("BlinkIDScanner.scanWithDirectApi failure: failure parameter not a function");
+        throw new Error("BlinkIDScanner.scanWithDirectApi failure: failure parameter not a function");
+        return;
+    }
+
+    if (typeof successCallback != "function") {
+        console.log("BlinkIDScanner.scanWithDirectApi failure: success callback parameter must be a function");
+        throw new Error("BlinkIDScanner.scanWithDirectApi failure: success callback parameter must be a function");
+        return;
+    }
+
+    // first invalidate old results
+    for (var i = 0; i < recognizerCollection.recognizerArray[i].length; ++i ) {
+        recognizerCollection.recognizerArray[i].result = null;
+    }
+
+    exec(
+        function internalCallback(scanningResult) {
+            var cancelled = scanningResult.cancelled;
+
+            if (cancelled) {
+                successCallback(true);
+            } else {
+                var results = scanningResult.resultList;
+                if (results.length != recognizerCollection.recognizerArray.length) {
+                    console.log("INTERNAL ERROR: native plugin returned wrong number of results!");
+                    throw new Error("INTERNAL ERROR: native plugin returned wrong number of results!");
+                    errorCallback(new Error("INTERNAL ERROR: native plugin returned wrong number of results!"));
+                } else {
+                    for (var i = 0; i < results.length; ++i) {
+                        // native plugin must ensure types match
+                        recognizerCollection.recognizerArray[i].result = recognizerCollection.recognizerArray[i].createResultFromNative(results[i]);
+                    }
+                    successCallback(false);
+                }
+            }
+        },
+        errorCallback, 'BlinkCardScanner', 'scanWithDirectApi', [recognizerCollection, frontImage, backImage, licenses]);
+};
+
 // COMMON CLASSES
 
 /**
