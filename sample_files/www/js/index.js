@@ -188,7 +188,7 @@ var app = {
 
         /* BlinkCard scanning with DirectAPI that requires both card images.
         Best used for getting the information from both front and backside information from various cards */
-        directAPITwoSidesButton.addEventListener('click', function() {
+        directApiTwoSidesButton.addEventListener('click', function() {
             //Open the image picker for getting the card image with the card number
             openImagePicker(handleFirstSideImage)
                 .then(function() {
@@ -235,7 +235,7 @@ var app = {
 
         /* BlinkCard scanning with DirectAPI that requires one card image.
         Best used for cards that have all of the information on one side, or if the needed information is on one side */
-        directAPIOneSideButton.addEventListener('click', function() {
+        directApiOneSideButton.addEventListener('click', function() {
             //Open the image picker for getting the card image with the card number
             openImagePicker(handleFirstSideImage)
                 .then(function() {

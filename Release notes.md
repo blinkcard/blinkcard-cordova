@@ -1,6 +1,6 @@
 ## 2.9.1
 
-- Updated the plugin to [Android SDK v2.9.2](https://github.com/blinkcard/blinkcard-android/releases/tag/v2.9.2) and [iOS SDK v2.9.1](https://github.com/BlinkCard/blinkcard-ios/releases/tag/v2.9.1)
+- Updated the plugin to [Android SDK v2.9.3](https://github.com/blinkcard/blinkcard-android/releases/tag/v2.9.3) and [iOS SDK v2.9.1](https://github.com/BlinkCard/blinkcard-ios/releases/tag/v2.9.1)
 
 ### Major API update
 

@@ -86,8 +86,8 @@ h1 {
 }
 
 #scanButton,
-#directAPITwoSidesButton,
-#directAPIOneSideButton {
+#directApiTwoSidesButton,
+#directApiOneSideButton {
     font-size:18px;
     height: 30px;
     width: 50%; 
@@ -104,8 +104,8 @@ h1 {
         font-size: 16px;
     }
     #scanButton,
-    #directAPITwoSidesButton,
-    #directAPIOneSideButton {
+    #directApiTwoSidesButton,
+    #directApiOneSideButton {
         width: 70%;
     }
 }

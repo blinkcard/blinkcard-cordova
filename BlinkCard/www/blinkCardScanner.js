@@ -86,9 +86,11 @@ BlinkCard.prototype.scanWithCamera = function (successCallback, errorCallback, o
  * successCallback: callback that will be invoked on successful scan
  * errorCallback: callback that will be invoked on error
  * recognizerCollection: {RecognizerCollection} containing recognizers to use for scanning
- * frontImage: the front image of the document that will be used for processing with DirectAPI in base64 format
- * backImage: the back image of the document that will be used for processing with DirectAPI in base64 format. 
- * This parameter is optional for the BlinkIdSingleSideRecognizer. Pass an empty string for this parameter.
+ * frontImage: the Base64 format string that represents the image of the card where the card number is located that will be used for processing with DirectAPI
+ * backImage: the Base64 format string that represents the second side of the card that will be used for processing with DirectAPI
+ *      - This parameter is optional for cards that have all of the information located on one side, or if the BlinkCardRecognizer information extraction 
+ *        settings, that are enabled, are located only on one side of the card
+ *      - Pass 'null' or an empty string "" for this parameter in this case
  * licenses: object containing:
  *               - base64 license keys for iOS and Android
  *               - optioanl parameter 'licensee' when license for multiple apps is used

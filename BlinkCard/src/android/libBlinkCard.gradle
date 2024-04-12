@@ -6,7 +6,7 @@ repositories {
 }
 
 dependencies {
-    implementation('com.microblink:blinkcard:2.9.2@aar') {
+    implementation('com.microblink:blinkcard:2.9.3@aar') {
         transitive = true
     }
 }
