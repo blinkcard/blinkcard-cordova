@@ -1,7 +1,7 @@
 ## 2.9.1
 
 - Updated the plugin to [Android SDK v2.9.3](https://github.com/blinkcard/blinkcard-android/releases/tag/v2.9.3) and [iOS SDK v2.9.1](https://github.com/BlinkCard/blinkcard-ios/releases/tag/v2.9.1)
-- This version of the SDK contains the native iOS BlinkCard.xcframework with the privacy manifest file (`PrivacyInfo.xcprivacy`).
+- This version of the SDK contains the native iOS `BlinkCard.xcframework` with the privacy manifest file (`PrivacyInfo.xcprivacy`).
 ### Major API update
 
 - We have introduced the **DirectAPI** method of scanning, which allows the SDK to extract the card information from static images without the need to use the device’s camera and our UI.
