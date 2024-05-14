@@ -52,8 +52,6 @@ var app = {
         var blinkCardRecognizer = new cordova.plugins.BlinkCard.BlinkCardRecognizer();
         blinkCardRecognizer.returnFullDocumentImage = true;
 
-        // there are lots of Recognizer objects in BlinkCard - check blinkCardScanner.js for full reference
-
         var blinkcardOverlaySettings = new cordova.plugins.BlinkCard.BlinkCardOverlaySettings();
 
         // create RecognizerCollection from any number of recognizers that should perform recognition
@@ -61,8 +59,8 @@ var app = {
 
         // package name/bundleID com.microblink.sample
         var licenseKeys = {
-            android: 'sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUAbGV5SkRjbVZoZEdWa1QyNGlPakUzTURnMk9EWTNPRGcwT1Rrc0lrTnlaV0YwWldSR2IzSWlPaUkwT1RabFpEQXpaUzAwT0RBeExUUXpZV1F0WVRrMU5DMDBNemMyWlRObU9UTTVNR1FpZlE9PUwdDoL/tBLmwfbOm3/dmw5DjLaYtTz1AGwI1162GlPEct+8fJxPBysGwVZ/8KX0Ygxi7NeroVHPM6IDNhCkmUMDHqELYqH3nK8xm8FPaTjCcN53o3B40SKVLm1Quw==',
-            ios: 'sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUBbGV5SkRjbVZoZEdWa1QyNGlPakUzTURnMk9EWTNOalE0TURZc0lrTnlaV0YwWldSR2IzSWlPaUkwT1RabFpEQXpaUzAwT0RBeExUUXpZV1F0WVRrMU5DMDBNemMyWlRObU9UTTVNR1FpZlE9Pc2TFqY01wri2M94Fe5sCUOx4F7K3M5TXqNAAJZWrZrJijNfC57WBNQMo7GkQo9Fp6zemUCuWlW0XGzB0RqVzCG1Y8aztpnim/cOYMPi5xoqZm3O3DeSkjmH6qUIyg=='
+            android: 'sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUAbGV5SkRjbVZoZEdWa1QyNGlPakUzTVRVMk56VXlNRGs1TURBc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PaUxma82THp6N9XYMdWpqez318I6MV7Wnzk4WxNIv66o0TlUCNfrHmY3BS8UH7YnVV27AMw+LY1tYtZKkOrrRHKGDYLYg6noKpub5Pab7CntTLdsZ0KD/EGvkZS8j6w=',
+            ios: 'sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUBbGV5SkRjbVZoZEdWa1QyNGlPakUzTVRJMU5qTTFNamMyT1RJc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PT1biknodonmIfXGRoRgDcJJ6XiWcxCFSE8flLOXwEKYwSUjWVAHSwI7GtA+oqJke90M+2giHY4Qqpeh67vsyoYHEyqCI8E6G47yBZxcIN/A7CFQq4IvMF4U7xaE1S4='
         };
 
         function buildResult(result, key) {
@@ -91,6 +89,68 @@ var app = {
              return "";
         }
 
+        function handleRecognizerResult(blinkCardResult) {
+            var resultString =
+            buildResult(blinkCardResult.cardNumber, 'Card Number') +
+            buildResult(blinkCardResult.cardNumberPrefix, 'Card Number Prefix') +
+            buildResult(blinkCardResult.iban, 'IBAN') +
+            buildResult(blinkCardResult.cvv, 'CVV') +
+            buildResult(blinkCardResult.owner, 'Owner') +
+            buildResult(blinkCardResult.cardNumberValid.toString(), 'Card Number Valid') +
+            buildDateResult(blinkCardResult.expiryDate, 'Expiry date') +
+            buildResult(blinkCardResult.issuer, 'Issuer') +
+            buildLivenessResult(blinkCardResult.documentLivenessCheck.front, 'Front side liveness checks') +
+            buildLivenessResult(blinkCardResult.documentLivenessCheck.back, 'Back side liveness checks');
+
+            // there are other fields to extract - check blinkCardScanner.js for full reference
+            resultDiv.innerHTML = resultString;
+
+            var resultDocumentFirstImage = blinkCardResult.firstSideFullDocumentImage;
+            if (resultDocumentFirstImage) {
+                documentFirstImage.src = "data:image/jpg;base64, " + resultDocumentFirstImage;
+                documentFirstImageDiv.style.visibility = "visible";
+            } else {
+                documentFirstImage.src = "";
+                documentFirstImageDiv.style.visibility = "hidden";
+            }
+            var resultDocumentSecondImage = blinkCardResult.secondSideFullDocumentImage;
+            if (resultDocumentSecondImage) {
+                documentSecondImage.src = "data:image/jpg;base64, " + resultDocumentSecondImage;
+                documentSecondImageDiv.style.visibility = "visible";
+            } else {
+                documentSecondImage.src = "";
+                documentSecondImageDiv.style.visibility = "hidden";
+
+            }
+        }
+
+        //methods for opening the image picker and handling the data for the DirectAPI method of scanning
+        function openImagePicker(callback) {
+            return new Promise(function(resolve, reject) {
+                var options = {
+                    destinationType: Camera.DestinationType.DATA_URL,
+                    sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+                    mediaType: Camera.MediaType.PICTURE
+                    };
+                
+                navigator.camera.getPicture(function(imageData) {
+                    callback(imageData);
+                    resolve();
+                    }, function(errorMessage) {
+                        reject(errorMessage);
+                    }, options);
+            });
+        }
+        
+        function handleFirstSideImage(imageData) {
+            firstSideImage = imageData;
+        }
+        
+        function handleSecondSideImage(imageData) {
+            secondSideImage = imageData;
+        }
+
+        /* BlinkCard scanning with camera */
         scanButton.addEventListener('click', function() {
             cordova.plugins.BlinkCard.scanWithCamera(
 
@@ -111,33 +171,7 @@ var app = {
                     // if not cancelled, every recognizer will have its result property updated
 
                     if (blinkCardRecognizer.result.resultState == cordova.plugins.BlinkCard.RecognizerResultState.valid) {
-
-                        var blinkCardResult = blinkCardRecognizer.result;
-                        var resultString =
-                            buildResult(blinkCardResult.cardNumber, 'Card Number') +
-                            buildResult(blinkCardResult.cardNumberPrefix, 'Card Number Prefix') +
-                            buildResult(blinkCardResult.iban, 'IBAN') +
-                            buildResult(blinkCardResult.cvv, 'CVV') +
-                            buildResult(blinkCardResult.owner, 'Owner') +
-                            buildResult(blinkCardResult.cardNumberValid.toString(), 'Card Number Valid') +
-                            buildDateResult(blinkCardResult.expiryDate, 'Expiry date') +
-                            buildResult(blinkCardResult.issuer, 'Issuer') +
-                            buildLivenessResult(blinkCardResult.documentLivenessCheck.front, 'Front side liveness checks') +
-                            buildLivenessResult(blinkCardResult.documentLivenessCheck.back, 'Back side liveness checks');
-
-                        // there are other fields to extract - check blinkCardScanner.js for full reference
-                        resultDiv.innerHTML = resultString;
-
-                        var resultDocumentFirstImage = blinkCardRecognizer.result.firstSideFullDocumentImage;
-                        if (resultDocumentFirstImage) {
-                            documentFirstImage.src = "data:image/jpg;base64, " + resultDocumentFirstImage;
-                            documentFirstImageDiv.style.visibility = "visible";
-                        }
-                        var resultDocumentSecondImage = blinkCardRecognizer.result.secondSideFullDocumentImage;
-                        if (resultDocumentSecondImage) {
-                            documentSecondImage.src = "data:image/jpg;base64, " + resultDocumentSecondImage;
-                            documentSecondImageDiv.style.visibility = "visible";
-                        }
+                        handleRecognizerResult(blinkCardRecognizer.result)
                     } else {
                         resultDiv.innerHTML = "Result is empty!";
                     }
@@ -152,10 +186,110 @@ var app = {
             );
         });
 
+        /* BlinkCard scanning with DirectAPI that requires both card images.
+        Best used for getting the information from both front and backside information from various cards */
+        directApiTwoSidesButton.addEventListener('click', function() {
+            //Open the image picker for getting the card image with the card number
+            openImagePicker(handleFirstSideImage)
+                .then(function() {
+                //Open the image picker again for getting the second side of the card
+                return openImagePicker(handleSecondSideImage);
+                })
+                .then(function() {
+                    //Send the images to the scanWithDirectApi method for processing
+                    cordova.plugins.BlinkCard.scanWithDirectApi(
+
+                        // Register the callback handler
+                        function callback(cancelled) {
+
+                            resultDiv.innerHTML = "";
+
+                            documentFirstImageDiv.style.visibility = "hidden";
+                            documentSecondImageDiv.style.visibility = "hidden";
+
+                            // handle cancelled scanning
+                            if (cancelled) {
+                                resultDiv.innerHTML = "Cancelled!";
+                                return;
+                            }
+                            // if not cancelled, every recognizer will have its result property updated
+
+                            if (blinkCardRecognizer.result.resultState != cordova.plugins.BlinkCard.RecognizerResultState.empty) {
+                                handleRecognizerResult(blinkCardRecognizer.result)
+                            } else {
+                                resultDiv.innerHTML = "Result is empty!";
+                            }
+                        },
+                        // Register the error callback
+                        function errorHandler(err) {
+                            alert('Error: ' + err);
+                        },
+                        recognizerCollection, firstSideImage, secondSideImage, licenseKeys
+                    );
+                })
+                //Catch any errors that might occur during the DirectAPI processing
+                .catch(function(error) {
+                    alert('DirectAPI TwoSides error: ' + error);
+                });
+        });
+
+        /* BlinkCard scanning with DirectAPI that requires one card image.
+        Best used for cards that have all of the information on one side, or if the needed information is on one side */
+        directApiOneSideButton.addEventListener('click', function() {
+            //Open the image picker for getting the card image with the card number
+            openImagePicker(handleFirstSideImage)
+                .then(function() {
+
+                    // BlinkCardRecognizer automatically classifies different credit card types and scans the data from
+                    // the supported credit card
+                    var blinkCardRecognizer = new cordova.plugins.BlinkCard.BlinkCardRecognizer();
+                    blinkCardRecognizer.returnFullDocumentImage = true;
+                    blinkCardRecognizer.extractCvv = false;
+                    blinkCardRecognizer.extractIban = false;
+                    blinkCardRecognizer.extractExpiryDate = false;
+        
+                    // create RecognizerCollection from any number of recognizers that should perform recognition
+                    var recognizerCollection = new cordova.plugins.BlinkCard.RecognizerCollection([blinkCardRecognizer]);
+                    
+                    //Send the image to the scanWithDirectApi method for processing
+                    cordova.plugins.BlinkCard.scanWithDirectApi(
+
+                        // Register the callback handler
+                        function callback(cancelled) {
+
+                            resultDiv.innerHTML = "";
+
+                            documentFirstImageDiv.style.visibility = "hidden";
+                            documentSecondImageDiv.style.visibility = "hidden";
+
+                            // handle cancelled scanning
+                            if (cancelled) {
+                                resultDiv.innerHTML = "Cancelled!";
+                                return;
+                            }
+                            // if not cancelled, every recognizer will have its result property updated
+
+                            if (blinkCardRecognizer.result.resultState != cordova.plugins.BlinkCard.RecognizerResultState.empty) {
+                                handleRecognizerResult(blinkCardRecognizer.result)
+                            } else {
+                                resultDiv.innerHTML = "Result is empty!";
+                            }
+                        },
+                        // Register the error callback
+                        function errorHandler(err) {
+                            alert('Error: ' + err);
+                        },
+                        recognizerCollection, firstSideImage, null, licenseKeys
+                    );
+                })
+                //Catch any errors that might occur during the DirectAPI processing
+                .catch(function(error) {
+                    alert('DirectAPI OneSide error: ' + error);
+                });
+        });
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
         console.log('Received Event: ' + id);
     }
-
 };
