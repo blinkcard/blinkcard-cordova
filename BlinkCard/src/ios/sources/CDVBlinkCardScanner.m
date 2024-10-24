@@ -78,20 +78,22 @@
     NSDictionary *jsonRecognizerCollection = [self sanitizeDictionary:[self.lastCommand argumentAtIndex:1]];
     NSDictionary *jsonLicenses = [self sanitizeDictionary:[self.lastCommand argumentAtIndex:2]];
 
-    [self setLicense:jsonLicenses];
-    [self setLanguage:(NSString *)jsonOverlaySettings[@"language"] country:(NSString *)jsonOverlaySettings[@"country"]];
+    if([self setLicense:jsonLicenses]) {
+        [self setLanguage:(NSString *)jsonOverlaySettings[@"language"] country:(NSString *)jsonOverlaySettings[@"country"]];
 
-    self.recognizerCollection = [[MBCRecognizerSerializers sharedInstance] deserializeRecognizerCollection:jsonRecognizerCollection];
+        self.recognizerCollection = [[MBCRecognizerSerializers sharedInstance] deserializeRecognizerCollection:jsonRecognizerCollection];
 
-    // create overlay VC
-    MBCOverlayViewController *overlayVC = [[MBCOverlaySettingsSerializers sharedInstance] createOverlayViewController:jsonOverlaySettings recognizerCollection:self.recognizerCollection delegate:self];
+        // create overlay VC
+        MBCOverlayViewController *overlayVC = [[MBCOverlaySettingsSerializers sharedInstance] createOverlayViewController:jsonOverlaySettings recognizerCollection:self.recognizerCollection delegate:self];
 
-    UIViewController<MBCRecognizerRunnerViewController>* recognizerRunnerViewController = [MBCViewControllerFactory recognizerRunnerViewControllerWithOverlayViewController:overlayVC];
+        UIViewController<MBCRecognizerRunnerViewController>* recognizerRunnerViewController = [MBCViewControllerFactory recognizerRunnerViewControllerWithOverlayViewController:overlayVC];
+        [recognizerRunnerViewController setModalPresentationStyle:UIModalPresentationFullScreen];
 
-    self.scanningViewController = recognizerRunnerViewController;
+        self.scanningViewController = recognizerRunnerViewController;
 
-    /** You can use other presentation methods as well */
-    [[self viewController] presentViewController:recognizerRunnerViewController animated:YES completion:nil];
+        /** You can use other presentation methods as well */
+        [[self viewController] presentViewController:recognizerRunnerViewController animated:YES completion:nil];
+    }
 }
 
 //MARK: DirectAPI scanning
@@ -100,18 +102,19 @@
     NSDictionary *jsonRecognizerCollection = [self sanitizeDictionary:[self.lastCommand argumentAtIndex:0]];
     NSDictionary *jsonLicenses = [self sanitizeDictionary:[self.lastCommand argumentAtIndex:3]];
     
-    [self setLicense:jsonLicenses];
-    [self setupRecognizerRunner:jsonRecognizerCollection];
-    
-    if ([self.lastCommand argumentAtIndex:1] != nil) {
-        UIImage * frontImage = [self convertbase64ToImage:[self.lastCommand argumentAtIndex:1]];
-        if (!CGSizeEqualToSize(frontImage.size, CGSizeZero)) {
-            [self processImage:[self convertbase64ToImage:[self.lastCommand argumentAtIndex:1]]];
+    if([self setLicense:jsonLicenses]) {
+        [self setupRecognizerRunner:jsonRecognizerCollection];
+        
+        if ([self.lastCommand argumentAtIndex:1] != nil) {
+            UIImage * frontImage = [self convertbase64ToImage:[self.lastCommand argumentAtIndex:1]];
+            if (!CGSizeEqualToSize(frontImage.size, CGSizeZero)) {
+                [self processImage:[self convertbase64ToImage:[self.lastCommand argumentAtIndex:1]]];
+            } else {
+                [self handleDirectApiError:CDVBlinkCardScanner.INVALID_IMAGE_FORMAT];
+            }
         } else {
-            [self handleDirectApiError:CDVBlinkCardScanner.INVALID_IMAGE_FORMAT];
+            [self handleDirectApiError:CDVBlinkCardScanner.EMPTY_IMAGE];
         }
-    } else {
-        [self handleDirectApiError:CDVBlinkCardScanner.EMPTY_IMAGE];
     }
 }
 
@@ -180,8 +183,9 @@
     [self.commandDelegate sendPluginResult:result callbackId:self.lastCommand.callbackId];
 }
 
-- (void)setLicense:(NSDictionary*) jsonLicense {
+- (bool)setLicense:(NSDictionary*) jsonLicense {
     __weak CDVBlinkCardScanner *weakSelf = self;
+    __block bool isLicenseKeyValid = YES;
     
     if ([jsonLicense objectForKey:@"showTrialLicenseWarning"] != nil) {
         BOOL showTrialLicenseWarning = [[jsonLicense objectForKey:@"showTrialLicenseWarning"] boolValue];
@@ -191,17 +195,19 @@
     if ([jsonLicense objectForKey:@"licensee"] != nil) {
         NSString *licensee = [jsonLicense objectForKey:@"licensee"];
         [[MBCMicroblinkSDK sharedInstance] setLicenseKey:iosLicense andLicensee:licensee errorCallback:^(MBCLicenseError licenseError) {
+            isLicenseKeyValid = NO;
             CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[CDVBlinkCardScanner licenseErrorToString:licenseError]];
             [weakSelf.commandDelegate sendPluginResult:result callbackId:weakSelf.lastCommand.callbackId];
         }];
     }
     else {
         [[MBCMicroblinkSDK sharedInstance] setLicenseKey:iosLicense errorCallback:^(MBCLicenseError licenseError) {
+            isLicenseKeyValid = NO;
             CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[CDVBlinkCardScanner licenseErrorToString:licenseError]];
             [weakSelf.commandDelegate sendPluginResult:result callbackId:weakSelf.lastCommand.callbackId];
         }];
     }
-
+    return isLicenseKeyValid;
 }
 
 - (void)setLanguage:(NSString *)language country:(NSString *)country {

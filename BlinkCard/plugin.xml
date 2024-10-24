@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="blinkcard-cordova"
-        version="2.9.1">
+        version="2.10.0">
 
     <name>BlinkCardScanner</name>
     <description>A small and powerful credit card scanning library</description>

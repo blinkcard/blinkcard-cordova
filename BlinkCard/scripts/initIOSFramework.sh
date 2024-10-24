@@ -4,7 +4,7 @@
 HERE="$(dirname "$(test -L "$0" && readlink "$0" || echo "$0")")"
 pushd "${HERE}/../src/ios/" > /dev/null
 
-LINK='https://github.com/BlinkCard/blinkcard-ios/releases/download/v2.9.1/BlinkCard.xcframework.zip'
+LINK='https://github.com/BlinkCard/blinkcard-ios/releases/download/v2.10.0/BlinkCard.xcframework.zip'
 FILENAME='BlinkCard.xcframework.zip'
 
 # BlinkCard framework will be obtained via wget or curl
